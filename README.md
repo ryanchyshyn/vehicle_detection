@@ -25,7 +25,8 @@ The goals / steps of this project are the following:
 [image6]: ./images/image6.png
 [image7]: ./images/image7.png
 [image8]: ./images/image8.png
-
+[image9]: ./images/image9.png
+[image10]: ./images/image10.png
 [video1]: ./out.mp4
 
 ## Pipeline
@@ -115,3 +116,10 @@ Finally we can conbine lanes *finding image* with *vehicles detection* image:
 
 ### 7. The video
 ![Resulting video][video1]
+
+## Issues
+There are some visible false positived on the video.
+And there are different approaches to fix it.
+The first way is to introduce some filtering like "low pass" filter for heat map (i.e. something like `value = prev_value * (1 - alpha) + new_value * alpha`).
+The second way is to adjust better classifier paramers and feature extraction algoright.
+Finally this project is adjusted to the input video and most likely will fail on another video. So there is third way - implement vehicle detection in completely different way. But this is a subject for another project I believe.
