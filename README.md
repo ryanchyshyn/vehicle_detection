@@ -91,6 +91,7 @@ Test Accuracy of SVC =  0.9755
 ### 4. Sliding window
 To perform actual pattern search on the test image, it should be divided onto small chunks and passed into classifier to detect whether corresponding chunk is a vehicle or not.
 Vehicle size is different for different distances, so we need to perform scaling of a sliding window:
+
 ![alt text][image5]
 
 ![alt text][image6]
