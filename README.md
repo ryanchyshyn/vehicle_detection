@@ -92,6 +92,25 @@ Test Accuracy of SVC =  0.9755
 To perform actual pattern search on the test image, it should be divided onto small chunks and passed into classifier to detect whether corresponding chunk is a vehicle or not.
 Vehicle size is different for different distances, so we need to perform scaling of a sliding window:
 ![alt text][image5]
+
 ![alt text][image6]
+
 ![alt text][image7]
 
+Combining all found patterns will give the following image:
+![alt text][image8]
+
+### 5. Heat map
+As you can see in previous picture there are some false positives.
+To workaround this issue a *Hot Map* algorighm is used:
+![alt text][image9]
+
+It simply counts all rectangles that overflows so the more rectangles are, the brighter that are will be.
+Next we will perform thresholding to remove false positives and finally wind cars positions.
+
+### 6. Final image
+Finally we can conbine lanes *finding image* with *vehicles detection* image:
+![alt text][image10]
+
+### 7. The video
+![Resulting video][video1]
