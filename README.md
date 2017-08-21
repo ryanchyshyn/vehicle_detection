@@ -82,7 +82,7 @@ hog_feat = True # HOG features on or off
 All parameters were found manually by probing different values and checking the results.
 
 ### 3. Classifier
-I used Linear SVM classifier with default parameters. The trainig code can be found in [Jupyter notebook](https://github.com/ryanchyshyn/vehicle_detection/blob/master/pipeline.ipynb)
+I used Linear SVM classifier with default parameters. The trainig code can be found in [Jupyter notebook](https://github.com/ryanchyshyn/vehicle_detection/blob/master/pipeline.ipynb) (block *In [4]*)
 
 ```
 Using: 9 orientations 8 pixels per cell and 2 cells per block
@@ -103,6 +103,8 @@ Vehicle size is different for different distances, so we need to perform scaling
 
 Combining all found patterns will give the following image:
 ![alt text][image8]
+
+Different scaling windows uses different parameters (like overlapping). All parameters were found manually by experiments.
 
 ### 5. Heat map
 As you can see in previous picture there are some false positives.
