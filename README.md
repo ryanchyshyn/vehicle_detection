@@ -18,9 +18,13 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 [image1]: ./images/image1.jpg
-[image2]: ./images/image2.png
+[image2]: ./images/image2_.png
 [image3]: ./images/image3.png
-[image4]: ./images/image4.png
+[image4]: ./images/image4_.png
+[image5]: ./images/image5.png
+[image6]: ./images/image6.png
+[image7]: ./images/image7.png
+[image8]: ./images/image8.png
 
 [video1]: ./out.mp4
 
@@ -28,7 +32,8 @@ The goals / steps of this project are the following:
 The pipeline consists of two independent parts: lanes detection part and vehicles detection part.
 This document describes only vehicles detection part. Another part was described in previous project.
 
-### 1. The software uses Linear SVM classifier. 
+### 1. Input images
+The software uses SVM classifier which requires images for training.
 The archives with images are located at *train_data* directory and should be unpacked there.
 Interesting thing is that the classifier requires not only *vehicle* images to train but also *non-vehicle*. There are almost 9000 images of both *vehicle* and *non-vehicle* type:
 ```
@@ -72,3 +77,21 @@ spatial_feat = True # Spatial features on or off
 hist_feat = True # Histogram features on or off
 hog_feat = True # HOG features on or off
 ```
+
+### 3. Classifier
+I used Linear SVM classifier with default parameters:
+
+```
+Using: 9 orientations 8 pixels per cell and 2 cells per block
+Feature vector length: 3540
+10.55 Seconds to train SVC...
+Test Accuracy of SVC =  0.9755
+```
+
+### 4. Sliding window
+To perform actual pattern search on the test image, it should be divided onto small chunks and passed into classifier to detect whether corresponding chunk is a vehicle or not.
+Vehicle size is different for different distances, so we need to perform scaling of a sliding window:
+![alt text][image5]
+![alt text][image6]
+![alt text][image7]
+
