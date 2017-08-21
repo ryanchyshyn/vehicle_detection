@@ -82,7 +82,7 @@ hog_feat = True # HOG features on or off
 All parameters were found manually by probing different values and checking the results.
 
 ### 3. Classifier
-I used Linear SVM classifier with default parameters:
+I used Linear SVM classifier with default parameters. The trainig code can be found in [Jupyter notebook](https://github.com/ryanchyshyn/vehicle_detection/blob/master/pipeline.ipynb)
 
 ```
 Using: 9 orientations 8 pixels per cell and 2 cells per block
