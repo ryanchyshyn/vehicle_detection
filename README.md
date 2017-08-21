@@ -79,6 +79,8 @@ hist_feat = True # Histogram features on or off
 hog_feat = True # HOG features on or off
 ```
 
+All parameters were found manually by probing different values and checking the results.
+
 ### 3. Classifier
 I used Linear SVM classifier with default parameters:
 
