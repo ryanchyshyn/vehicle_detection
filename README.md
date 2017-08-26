@@ -116,7 +116,8 @@ We simply create a matrix with the same dimension as input image and increment e
 Then we performs thresholding which zeroes all cells with value lower than specified. Effectively this means that the resulting matrix will persist only these regions that contains at least *specified as threshold* number of rectangles. So single (or even double in my case) rectangles will be dropped out.
 Yet another operation is make a heat-map like a binary so it will contains only 0 and 1. This is important for the next step.
 
-Next step is multi-frame filtering. We simply preserves last 10 heatmap matrices, calculate mean matrix and perform yet another threshold operation with value 0.8 This will effectively drop out rectangles that is visible less than 80% os last 10 frames of video:
+Next step is multi-frame filtering. We simply preserves last 10 heatmap matrices, calculate mean matrix and perform yet another threshold operation with value 0.8 This will effectively drop out rectangles that is visible less than 80% of last 10 frames of video:
+
 ![alt text][image11]
 
 This filtering eliminates most of false positives.
@@ -131,4 +132,5 @@ Finally we can conbine lanes *finding image* with *vehicles detection* image:
 ## Issues
 There are still some visible false positived on the video. It is possible to adjust different constants to eliminate it however such adjusting is very specific and will not work for another videos.
 Another great issue is very high processing time. Processing of one frame takes 17 seconds which is inadmissible high value (processing whole video took almost 6 hours on i7 3770!!!). The main reasons of so big value are: using YCrCb color space, too many sliding windows (especially 64x64) with high overlapping value, single thread execution, not so effective algorithm in general.
+
 Obviously this solution can't be used for real-time processing.
