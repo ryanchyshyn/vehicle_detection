@@ -27,6 +27,7 @@ The goals / steps of this project are the following:
 [image8]: ./images/image8.png
 [image9]: ./images/image9.png
 [image10]: ./images/image10.png
+[image11]: ./images/image11.png
 [video1]: ./out.mp4
 
 ## Pipeline
@@ -67,7 +68,7 @@ Here is are some color spaces
 
 I selected the following key parameters for features extraction:
 ```
-color_space = 'HSV' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
+color_space = 'YCrCb' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
 orient = 9  # HOG orientations
 pix_per_cell = 8 # HOG pixels per cell
 cell_per_block = 2 # HOG cells per block
@@ -86,9 +87,9 @@ I used Linear SVM classifier with default parameters. The trainig code can be fo
 
 ```
 Using: 9 orientations 8 pixels per cell and 2 cells per block
-Feature vector length: 3540
-10.55 Seconds to train SVC...
-Test Accuracy of SVC =  0.9755
+Feature vector length: 7068
+20.23 Seconds to train SVC...
+Test Accuracy of SVC =  0.9885
 ```
 
 ### 4. Sliding window
@@ -106,13 +107,19 @@ Combining all found patterns will give the following image:
 
 Different scaling windows uses different parameters (like overlapping). All parameters were found manually by experiments.
 
-### 5. Heat map
+### 5. Filtering
 As you can see in previous picture there are some false positives.
 To workaround this issue a *Hot Map* algorighm is used:
 ![alt text][image9]
 
-It simply counts all rectangles that overflows so the more rectangles are, the brighter that are will be.
-Next we will perform thresholding to remove false positives and finally wind cars positions.
+We simply create a matrix with the same dimension as input image and increment each matrix cell by one when the cell belongs to the vehicle rectangle.
+Then we performs thresholding which zeroes all cells with value lower than specified. Effectively this means that the resulting matrix will persist only these regions that contains at least *specified as threshold* number of rectangles. So single (or even double in my case) rectangles will be dropped out.
+Yet another operation is make a heat-map like a binary so it will contains only 0 and 1. This is important for the next step.
+
+Next step is multi-frame filtering. We simply preserves last 10 heatmap matrices, calculate mean matrix and perform yet another threshold operation with value 0.8 This will effectively drop out rectangles that is visible less than 80% os last 10 frames of video:
+![alt text][image11]
+
+This filtering eliminates most of false positives.
 
 ### 6. Final image
 Finally we can conbine lanes *finding image* with *vehicles detection* image:
@@ -122,8 +129,6 @@ Finally we can conbine lanes *finding image* with *vehicles detection* image:
 ![Resulting video][video1]
 
 ## Issues
-There are some visible false positived on the video.
-And there are different approaches to fix it.
-The first way is to introduce some filtering like "low pass" filter for heat map (i.e. something like `value = prev_value * (1 - alpha) + new_value * alpha`).
-The second way is to adjust better classifier paramers and feature extraction algorithm.
-Finally this project is adjusted to the input video and most likely will fail on another video. So there is third way - implement vehicle detection in completely different way. But this is a subject for another project I believe.
+There are still some visible false positived on the video. It is possible to adjust different constants to eliminate it however such adjusting is very specific and will not work for another videos.
+Another great issue is very high processing time. Processing of one frame takes 17 seconds which is inadmissible high value (processing whole video took almost 6 hours on i7 3770!!!). The main reasons of so big value are: using YCrCb color space, too many sliding windows (especially 64x64) with high overlapping value, single thread execution, not so effective algorithm in general.
+Obviously this solution can't be used for real-time processing.
