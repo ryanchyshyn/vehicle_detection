@@ -131,6 +131,7 @@ Finally we can conbine lanes *finding image* with *vehicles detection* image:
 
 ## Issues
 There are still some visible false positived on the video. It is possible to adjust different constants to eliminate it however such adjusting is very specific and will not work for another videos.
+
 Another great issue is very high processing time. Processing of one frame takes 17 seconds which is inadmissible high value (processing whole video took almost 6 hours on i7 3770!!!). The main reasons of so big value are: using YCrCb color space, too many sliding windows (especially 64x64) with high overlapping value, single thread execution, not so effective algorithm in general.
 
 Obviously this solution can't be used for real-time processing.
